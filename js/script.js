@@ -4,7 +4,7 @@
 //  Creates new Conway's GoL object with length of
 //  the square grid.
 // Game controller
-function Conway(length) {
+function Conway(cellsPerSide, cellWidth) {
   var conway = this;
 
   //
@@ -13,7 +13,10 @@ function Conway(length) {
   conway.dead = 0;
 
   // Always a square
-  conway.width = conway.height = length;
+  conway.width = conway.height = cellsPerSide;
+  conway.cellWidth = cellWidth;
+  
+  conway.generation = 0;
 
   //************
   //** Methods
@@ -80,26 +83,26 @@ function Conway(length) {
   // Generate Pentadecathlon formation
   conway.newPentadecathlon = function () {
     var pentCells = conway.newEmptyArray();
-    pentCells[10][10] = conway.alive;
-    pentCells[10][11] = conway.alive;
-    pentCells[10][12] = conway.alive;
-    pentCells[11][10] = conway.alive;
+    pentCells[conway.cellWidth][conway.cellWidth] = conway.alive;
+    pentCells[conway.cellWidth][11] = conway.alive;
+    pentCells[conway.cellWidth][12] = conway.alive;
+    pentCells[11][conway.cellWidth] = conway.alive;
     pentCells[11][12] = conway.alive;
-    pentCells[12][10] = conway.alive;
+    pentCells[12][conway.cellWidth] = conway.alive;
     pentCells[12][11] = conway.alive;
     pentCells[12][12] = conway.alive;
-    pentCells[13][10] = conway.alive;
+    pentCells[13][conway.cellWidth] = conway.alive;
     pentCells[13][11] = conway.alive;
     pentCells[13][12] = conway.alive;
-    pentCells[14][10] = conway.alive;
+    pentCells[14][conway.cellWidth] = conway.alive;
     pentCells[14][11] = conway.alive;
     pentCells[14][12] = conway.alive;
-    pentCells[15][10] = conway.alive;
+    pentCells[15][conway.cellWidth] = conway.alive;
     pentCells[15][11] = conway.alive;
     pentCells[15][12] = conway.alive;
-    pentCells[16][10] = conway.alive;
+    pentCells[16][conway.cellWidth] = conway.alive;
     pentCells[16][12] = conway.alive;
-    pentCells[17][10] = conway.alive;
+    pentCells[17][conway.cellWidth] = conway.alive;
     pentCells[17][11] = conway.alive;
     pentCells[17][12] = conway.alive;
     return pentCells;
@@ -108,25 +111,25 @@ function Conway(length) {
   // Generate Kok's Galaxy formation
   conway.newKokGalaxy = function () {
     var kokCells = conway.newEmptyArray();
-    kokCells[10][10] = conway.alive;
-    kokCells[10][11] = conway.alive;
-    kokCells[10][12] = conway.alive;
-    kokCells[10][13] = conway.alive;
-    kokCells[10][14] = conway.alive;
-    kokCells[10][15] = conway.alive;
-    kokCells[11][10] = conway.alive;
+    kokCells[conway.cellWidth][conway.cellWidth] = conway.alive;
+    kokCells[conway.cellWidth][11] = conway.alive;
+    kokCells[conway.cellWidth][12] = conway.alive;
+    kokCells[conway.cellWidth][13] = conway.alive;
+    kokCells[conway.cellWidth][14] = conway.alive;
+    kokCells[conway.cellWidth][15] = conway.alive;
+    kokCells[11][conway.cellWidth] = conway.alive;
     kokCells[11][11] = conway.alive;
     kokCells[11][12] = conway.alive;
     kokCells[11][13] = conway.alive;
     kokCells[11][14] = conway.alive;
     kokCells[11][15] = conway.alive;
 
-    kokCells[13][10] = conway.alive;
-    kokCells[14][10] = conway.alive;
-    kokCells[15][10] = conway.alive;
-    kokCells[16][10] = conway.alive;
-    kokCells[17][10] = conway.alive;
-    kokCells[18][10] = conway.alive;
+    kokCells[13][conway.cellWidth] = conway.alive;
+    kokCells[14][conway.cellWidth] = conway.alive;
+    kokCells[15][conway.cellWidth] = conway.alive;
+    kokCells[16][conway.cellWidth] = conway.alive;
+    kokCells[17][conway.cellWidth] = conway.alive;
+    kokCells[18][conway.cellWidth] = conway.alive;
     kokCells[13][11] = conway.alive;
     kokCells[14][11] = conway.alive;
     kokCells[15][11] = conway.alive;
@@ -147,13 +150,13 @@ function Conway(length) {
     kokCells[18][17] = conway.alive;
     kokCells[18][18] = conway.alive;
 
-    kokCells[10][17] = conway.alive;
+    kokCells[conway.cellWidth][17] = conway.alive;
     kokCells[11][17] = conway.alive;
     kokCells[12][17] = conway.alive;
     kokCells[13][17] = conway.alive;
     kokCells[14][17] = conway.alive;
     kokCells[15][17] = conway.alive;
-    kokCells[10][18] = conway.alive;
+    kokCells[conway.cellWidth][18] = conway.alive;
     kokCells[11][18] = conway.alive;
     kokCells[12][18] = conway.alive;
     kokCells[13][18] = conway.alive;
@@ -173,8 +176,8 @@ function Conway(length) {
     conway.stage.update();
     var i, j;
     var square = [];
-    for (i = 0; i < length; i++) {
-      for (j = 0; j < length; j++) {
+    for (i = 0; i < cellsPerSide; i++) {
+      for (j = 0; j < cellsPerSide; j++) {
         //  Creates new easeljs square at coordinates
         //   corresponding to current location in array.
         //  Adds child shapes to easeljs stage
@@ -183,9 +186,9 @@ function Conway(length) {
           square[i][j] = new createjs.Shape();
           square[i][j].graphics.beginFill('#00ff99')
             .beginStroke("#999999")
-            .drawRect(0, 0, 10, 10);
-          square[i][j].x = i * 10;
-          square[i][j].y = j * 10;
+            .drawRect(0, 0, conway.cellWidth, conway.cellWidth);
+          square[i][j].x = i * conway.cellWidth;
+          square[i][j].y = j * conway.cellWidth;
           conway.stage.addChild(square[i][j]);
           // calls toggleCellAt on click
           square[i][j].addEventListener("click", conway.toggleCellAt(i, j, square[i][j]));
@@ -194,9 +197,9 @@ function Conway(length) {
           square[i][j] = new createjs.Shape();
           square[i][j].graphics.beginFill('#666666')
             .beginStroke("#999999")
-            .drawRect(0, 0, 10, 10);
-          square[i][j].x = i * 10;
-          square[i][j].y = j * 10;
+            .drawRect(0, 0, conway.cellWidth, conway.cellWidth);
+          square[i][j].x = i * conway.cellWidth;
+          square[i][j].y = j * conway.cellWidth;
           conway.stage.addChild(square[i][j]);
           square[i][j].addEventListener("click", conway.toggleCellAt(cellsArray, i, j, square[i][j]));
         }
@@ -217,9 +220,9 @@ function Conway(length) {
         square = new createjs.Shape();
         square.graphics.beginFill('#666666')
           .beginStroke("#999999")
-          .drawRect(0, 0, 10, 10);
-        square.x = x * 10;
-        square.y = y * 10;
+          .drawRect(0, 0, conway.cellWidth, conway.cellWidth);
+        square.x = x * conway.cellWidth;
+        square.y = y * conway.cellWidth;
         square.addEventListener("click", conway.toggleCellAt(cellsArray, x, y, square));
         conway.stage.addChild(square);
         conway.stage.update();
@@ -230,9 +233,9 @@ function Conway(length) {
         square = new createjs.Shape();
         square.graphics.beginFill('#00ff99')
           .beginStroke("#999999")
-          .drawRect(0, 0, 10, 10);
-        square.x = x * 10;
-        square.y = y * 10;
+          .drawRect(0, 0, conway.cellWidth, conway.cellWidth);
+        square.x = x * conway.cellWidth;
+        square.y = y * conway.cellWidth;
         square.addEventListener("click", conway.toggleCellAt(cellsArray, x, y, square));
         conway.stage.addChild(square);
         conway.stage.update();
@@ -309,9 +312,11 @@ function Conway(length) {
 //**************
 $(document).ready(function () {
   // Create new Conway object
-  var gameController = new Conway(50);
-  // Initalize to all dead cells
+  var gameController = new Conway(25, 20);
+  // Initialize to all dead cells
   var cells = gameController.newEmptyArray();
+  
+  var generation = 0;
   // Create stage for easeljs as well as ticker
   gameController.stage = new createjs.Stage("gameController");
 
@@ -323,6 +328,9 @@ $(document).ready(function () {
     if (!event.paused) {
       cells = gameController.updateAll(cells);
       gameController.draw(cells);
+      // TODO: move into game controller
+      generation += 1;
+      $('#stats-line').text("Generation: " + generation);
     }
   }
 
@@ -334,7 +342,7 @@ $(document).ready(function () {
     createjs.Ticker.addEventListener("tick", updateAndDraw);
     // Unpauses
     createjs.Ticker.paused = false;
-    // Interval of 1 Tick/1000ms
+    // Interval of 1 Tick/conway.cellWidth00ms
     createjs.Ticker.setInterval(250);
 
   });
