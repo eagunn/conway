@@ -1,8 +1,6 @@
-/* global window, document, jQuery, $, createjs */
-
 // Conway Object Constructor
 //
-//  Creates new Conway's GoL object.
+// Creates new Conway's GoL object.
 // Caller should specify number of cells per side
 // and cell width -- but also needs to adjust canvas
 // size accordingly.
@@ -25,7 +23,7 @@ function Conway(cellsPerSide, cellWidth) {
   //************
 
   // Pre-made formations
-  // Initially initialize empty (dead) 2D array initially
+  // Generate a completely empty (dead) 2D array 
   conway.newEmptyArray = function () {
     var i, j;
     var cells = [];
