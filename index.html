@@ -24,47 +24,47 @@
 
 <body>
 
-  <div class="row">
-    <h1 class="center">Conway's Game of Life</h1>
+<div class="row">
+  <h1 class="center">Conway's Game of Life</h1>
 
-    <ul>
-      <li>Create live cells by clicking anywhere on the grid or choose a pre-made formation from the menu on the right.</li>
-      <li>Click 'Step' to see the evolution one iteration at a time or 'Start' to watch the evolution progress in real time.</li>
-      <li>Click 'Pause' to start/stop the evolution.</li>
-      <li>'Clear' will stop the evolution and clear the grid of all live cells.</li>
-    </ul>
+  <ul>
+    <li>Create live cells by clicking anywhere on the grid or choose a pre-made formation from the menu on the right.</li>
+    <li>Click 'Step' to see the evolution one iteration at a time or 'Start' to watch the evolution progress in real time.</li>
+    <li>Click 'Pause' to start/stop the evolution.</li>
+    <li>'Clear' will stop the evolution and clear the grid of all live cells.</li>
+  </ul>
 
-    <!-- Canvas Game Area -->
-    <div class="center medium-8 columns">
-      <canvas class="center" id="gameController" width="500" height="500"></canvas>
-    </div>
-
-    <div class="menu medium-4 columns">
-      <!-- Control Buttons -->
-      <p>Controls</p>
-      <button id="start-button" type="button" class="button secondary">Start
-      </button>
-      <button id="pause-button" type="button" class="button secondary">Pause
-      </button>
-      <button id="step-button" type="button" class="button secondary">Step
-      </button>
-      <button id="clear-button" type="button" class="button secondary">Clear
-      </button>
-      <p>Statistics</p>
-      <p id="stats-line"></p>
-      <!-- Formations Menu -->
-      <div class="formation-menu">
-        <p>Pre-made Formations</p>
-        <button id="gosper-gun" type="button" class="button secondary">Gosper's Glider Gun
-        </button>
-        <button id="pent-osc" type="button" class="button secondary">Pentadecathlon
-        </button>
-        <button id="kok-galaxy" type="button" class="button secondary">Kok's Galaxy
-        </button>
-      </div>
-    </div>
-
+  <!-- Canvas Game Area -->
+  <div class="center medium-8 columns">
+    <canvas class="center" id="gameController" width="500" height="500"></canvas>
   </div>
+
+  <div class="menu medium-4 columns">
+    <!-- Control Buttons -->
+    <button id="start-button" type="button" class="button secondary">Start
+    </button>
+    <button id="pause-button" type="button" class="button secondary">Pause
+    </button>
+    <button id="step-button" type="button" class="button secondary">Step
+    </button>
+    <button id="clear-button" type="button" class="button secondary">Clear
+    </button>
+    <div class="stats-section">
+      <p id="stats-line">Generation: 0</p>
+    </div>
+    <!-- Formations Menu -->
+    <div class="formation-menu">
+      <p>Pre-made Formations</p>
+      <button id="gosper-gun" type="button" class="button">Gosper's Glider Gun
+      </button>
+      <button id="pent-osc" type="button" class="button">Pentadecathlon
+      </button>
+      <button id="kok-galaxy" type="button" class="button">Kok's Galaxy
+      </button>
+    </div>
+  </div>
+
+</div>
 
 </body>
 
