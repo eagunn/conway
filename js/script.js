@@ -36,6 +36,7 @@ function Conway(cellsPerSide, cellWidth) {
       }
     }
     conway.generation = 0;
+    conway.updateGenerationDisplay();
     return cells;
   }; // conway.newEmptyArray()
 
@@ -304,9 +305,13 @@ function Conway(cellsPerSide, cellWidth) {
       }
     }
     conway.generation += 1;
-    $('#stats-line').text("Generation: " + conway.generation);
+    conway.updateGenerationDisplay();
     return newCellArray;
   }; // conway.updateAll()
+
+  conway.updateGenerationDisplay = function() {
+    $('#stats-line').text("Generation: " + conway.generation);
+  };
 
 } // Conway
 
@@ -368,18 +373,21 @@ $(document).ready(function () {
 
   // Gosper Gun
   $('#gosper-gun').click(function () {
+    createjs.Ticker.removeEventListener("tick", updateAndDraw);
     cells = gameController.newGosperGliderGun();
     gameController.draw(cells);
   });
 
   // Pentadecathlon
   $('#pent-osc').click(function () {
+    createjs.Ticker.removeEventListener("tick", updateAndDraw);
     cells = gameController.newPentadecathlon();
     gameController.draw(cells);
   });
 
   // Kok Galaxy
   $('#kok-galaxy').click(function () {
+    createjs.Ticker.removeEventListener("tick", updateAndDraw);
     cells = gameController.newKokGalaxy();
     gameController.draw(cells);
   });
