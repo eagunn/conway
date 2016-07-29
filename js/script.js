@@ -12,7 +12,7 @@ function Conway(length) {
   conway.alive = 1;
   conway.dead = 0;
 
-  // Always a square
+  // Always a square for now, but can easily be rectangle
   conway.width = conway.height = length;
 
   //************
@@ -164,7 +164,17 @@ function Conway(length) {
     return kokCells;
   }; // conway.newKokGalaxy()
 
-
+  // Generate Khvarenah Bird formation
+  conway.newKhvarenah = function () {
+    var farrCells = conway.newEmptyArray();
+   	farrCells[24][20] = conway.alive;
+   	farrCells[26][20] = conway.alive;
+   	farrCells[25][21] = conway.alive;
+   	farrCells[26][22] = conway.alive;
+   	farrCells[25][22] = conway.alive;
+   	farrCells[24][23] = conway.alive;
+    return farrCells;
+  }; // conway.newKhvarenah()
 
   // Draws grid to screen using easeljs (side effects only)
   //  Draws dead and live cells w/ different colors
@@ -305,6 +315,36 @@ function Conway(length) {
 } // Conway
 
 //**************
+//** LocalStorage
+//**************
+
+// Form localStorage namespace
+function ident() {
+	var id = this;
+	id.host = window.location.host.split('.');
+	id.out = "-";
+	id.vers = "cnwy0.0.0-"
+	if (id.host.length < 2){
+		id.out = "localHost"+id.out;
+	} else {
+		id.out = id.host[0]+id.out;
+		for(var i = 1; i < id.host.length; i++){
+			id.out = id.host[i]+"."+id.out;
+		}
+	}
+	return id.out+id.vers;
+}
+
+function save(cellArray) {
+	localStorage.setItem(ident()+"state-start",cellArray.join());
+}
+
+function getSaved() {
+	return localStorage[ident()+"state-start"];
+} 
+// LocalStorage
+
+//**************
 //** DOM Ready
 //**************
 $(document).ready(function () {
@@ -325,18 +365,42 @@ $(document).ready(function () {
       gameController.draw(cells);
     }
   }
-
+  
+  // Restore State from LocalStorage
+  function restore() {
+    if (getSaved()) {
+      cells = gameController.newEmptyArray();
+      var restore = getSaved().split(',');
+      var x = 0, y = 0;
+      for (var i = 0; i < restore.length-1; i++) {
+      	if (parseInt(restore[i])) {
+        	cells[x][y] = gameController.alive;
+        }
+      	if (y == gameController.width-1) {
+      		x++;
+      	}
+      	if (y < gameController.height-1) {
+      		y++;
+      	} else {
+      		y = 0;
+      	}
+      }
+    } else {
+      cells = gameController.newEmptyArray();
+    }
+  }
+  
   // Button event listeners
 
   // Start
   $('#start-button').click(function () {
+  	save(cells);
     // Create event ticker, add handleTick() as callback to be called every tick
     createjs.Ticker.addEventListener("tick", updateAndDraw);
     // Unpauses
     createjs.Ticker.paused = false;
     // Interval of 1 Tick/1000ms
     createjs.Ticker.setInterval(250);
-
   });
 
   // Pause
@@ -359,6 +423,14 @@ $(document).ready(function () {
     gameController.draw(cells);
   });
 
+  // Reset
+  $('#reset-button').click(function () {
+    // Clears stage and redraws. Removes tick event listener
+    createjs.Ticker.removeEventListener("tick", updateAndDraw);
+	restore();
+    gameController.draw(cells);
+  });
+
   // Gosper Gun
   $('#gosper-gun').click(function () {
     cells = gameController.newGosperGliderGun();
@@ -374,6 +446,12 @@ $(document).ready(function () {
   // Kok Galaxy
   $('#kok-galaxy').click(function () {
     cells = gameController.newKokGalaxy();
+    gameController.draw(cells);
+  });
+  
+  // Khvarenah Bird
+  $('#khvarenah').click(function () {
+    cells = gameController.newKhvarenah();
     gameController.draw(cells);
   });
 
