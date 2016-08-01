@@ -380,8 +380,8 @@ $(document).ready(function () {
   
   // Restore State from LocalStorage
   function restore() {
-    if (getSaved()) {
-      cells = gameController.newEmptyArray();
+    cells = gameController.newEmptyArray();
+    if (getSaved()) { 
       var restore = getSaved().split(',');
       var x = 0, y = 0;
       for (var i = 0; i < restore.length-1; i++) {
@@ -397,8 +397,6 @@ $(document).ready(function () {
       		y = 0;
       	}
       }
-    } else {
-      cells = gameController.newEmptyArray();
     }
   }
   
